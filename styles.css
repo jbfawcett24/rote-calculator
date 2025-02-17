@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+:root {
+    --primary-color: #121940;
+    --secondary-color: #ffa02b;
+    --accent1-color: #dd1e2d;
+    --accent2-color: #48b0fa;
+    --accent3-color: #3aac2d;
+}
+
+* {
+    background-color: var(--primary-color);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+form {
+    margin-right: 20px;
+}
+.orders {
+    margin: 0;
+    padding-left: 20px;
+    border-left: 1px solid var(--secondary-color);
+    min-height: 100vh;
+}
+h1,h2, summary {
+    color: var(--secondary-color);
+    font-family: "Roboto", sans-serif;
+}
+h3 {
+    font-family: "Roboto", sans-serif;
+}
+.light {
+    color: var(--accent2-color);
+}
+.neutral {
+    color: var(--accent3-color);
+}
+.dark {
+    color: var(--accent1-color);
+}
+.planets {
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px;
+    width: 50%;
+    margin-top: 10px;
+    padding-left: 10px;
+}
+summary {
+    font-weight: bold;
+    font-size: 1.5em;
+    border-bottom: 1px solid var(--secondary-color);
+    margin-bottom: 20px;
+}
+.hide {
+    display: none;
+}
+
+nav a{
+    text-decoration: none;
+    font-size: 2em;
+    color: var(--secondary-color);
+    margin-left: 10px;
+}
+
+#guild {
+    border: none;
+    display: flex;
+    flex-direction: column;
+}
