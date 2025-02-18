@@ -30,6 +30,8 @@ const planets = [
 
 
 let totalStars = 0;
+let full = true;
+let singlePhasePlanets = [];
 
 function orderTemplate(planets, phaseNum, orders)
 {
@@ -54,11 +56,11 @@ function planetOrder(planetsList)
     let outOfGP = false;
     let orders = [];
     for(let i = 0; i < planetsList.length; i++) {
-        console.log(planetsList[i].stars);
+        //console.log(planetsList[i].stars);
         if(planetsList[i].stars === 1)
         {
             orders.push("⭐ 1 star");
-            console.log("it is one star");
+            //console.log("it is one star");
             totalStars ++;
         } else if(planetsList[i].stars === 2)
         {
@@ -114,7 +116,7 @@ function setGuildInfo()
 {
     const bonusInfo = document.querySelectorAll("#bonusInfo input[type='checkbox']:checked");
     const selectedBonuses = Array.from(bonusInfo).map(checkbox => checkbox.name);
-    console.log(selectedBonuses);
+    //console.log(selectedBonuses);
     guildInfo.GP = document.querySelector("#guildGP").valueAsNumber;
     guildInfo.undeployed = document.querySelector("#undeployed").valueAsNumber;
     guildInfo.preload = document.querySelector("#preload").valueAsNumber;
@@ -123,15 +125,29 @@ function setGuildInfo()
         planets[i].preload -= guildInfo.preload;
     }
 }
-function calculate(e)
+function calculate(singlePhase)
 {
-    e.preventDefault();
     document.querySelector('button').classList.add("hide");
     setGuildInfo();
-    let phaseNum = 1;
-    while (phaseNum <= 6) {
+    let phaseNum;
+    let endPhase;
+    if(full === true)
+    {
+        phaseNum = 1;
+        endPhase = 6;
+    } else {
+        phaseNum = singlePhase;
+        endPhase = singlePhase;
+    }
+    while (phaseNum <= endPhase) {
         let outOfGP = false;
-        let availablePlanets = planets.filter(p => p.completed === false && ((p.side === "bonus" && guildInfo.bonusPlanets.includes(p.name)) || p.side !== "bonus"));
+        let availablePlanets;
+        if(full === true)
+        {
+            availablePlanets = planets.filter(p => p.completed === false && ((p.side === "bonus" && guildInfo.bonusPlanets.includes(p.name)) || p.side !== "bonus"));
+        } else {
+            availablePlanets = singlePhasePlanets;
+        }
         let phasePlanets = [];
         let tempGuildGP = guildInfo.GP - guildInfo.undeployed;
         for (let i = 0; i < 3; i++) {
@@ -174,11 +190,11 @@ function calculate(e)
                     for(let j = 0; j < planets.length; j++) {
                         if(planets[j].name === availablePlanets[i].name) {
                             planets[j].deployed = tempGuildGP;
-                            console.log(`Deployed: ${planets[j].deployed} Needed for one star: ${availablePlanets[i].preload + guildInfo.preload}`);
+                            //console.log(`Deployed: ${planets[j].deployed} Needed for one star: ${availablePlanets[i].preload + guildInfo.preload}`);
                             if(planets[j].deployed >= availablePlanets[i].twoStar) {
                                 availablePlanets[i].stars = 2;
                             } else if(planets[j].deployed >= (availablePlanets[i].preload+guildInfo.preload)) {
-                                console.log("should be one star");
+                                //console.log("should be one star");
                                 availablePlanets[i].stars = 1;
                             }
                             tempGuildGP = 0;
@@ -208,4 +224,34 @@ function calculate(e)
     }
 }
 
-document.querySelector("#calculate").addEventListener("click", calculate);
+function switchMode(e)
+{
+    e.preventDefault();
+    document.querySelector(".singlePhase").classList.toggle("hide");
+    document.querySelector("#bonusInfo").classList.toggle("hide");
+    if(full === true) {
+        document.querySelector("#switch").textContent = "Switch to Full Event Planning";
+        full = false;
+    } else {
+        document.querySelector("#switch").textContent = "Switch to Single Phase Planning";
+        full = true;
+    }
+}
+
+function submitData(e)
+{
+    e.preventDefault();
+    let singlePhase = document.querySelector("#phaseNum").value;
+    singlePhasePlanets.push(planets.find(p => p.name === document.querySelector("#darkside").value));
+    singlePhasePlanets.push(planets.find(p => p.name === document.querySelector("#neutral").value));
+    singlePhasePlanets.push(planets.find(p => p.name === document.querySelector("#lightside").value));
+    singlePhasePlanets[0].deployed = parseInt(document.querySelector("#darksideGP").value);
+    singlePhasePlanets[1].deployed = parseInt(document.querySelector("#neutralGP").value);
+    singlePhasePlanets[2].deployed = parseInt(document.querySelector("#lightsideGP").value);
+    singlePhasePlanets.sort((a, b) => b.deployed - a.deployed);
+    console.log(singlePhasePlanets[0].name);
+    calculate(singlePhase);
+}
+
+document.querySelector("#calculate").addEventListener("click", submitData);
+document.querySelector("#switch").addEventListener("click", switchMode);

@@ -36,8 +36,50 @@
                     <input type="checkbox" id="Mandalore" name="Mandalore">
                     <label for="Mandalore">Mandalore</label>
                 </fieldset>
+                <fieldset class = "singlePhase hide">
+                    <label for="phaseNum">Phase Number</label>
+                    <input id="phaseNum" name="phaseNum" type="number">
+                    <fieldset class="darksidePhase">
+                        <label for="darkside">Dark side planet</label>
+                        <select id="darkside">
+                            <option value="Mustafar">Mustafar</option>
+                            <option value="Geonosis">Geonosis</option>
+                            <option value="Dathomir">Dathomir</option>
+                            <option value="Haven Medical Station">Haven Medical Station</option>
+                            <option value="Malachor">Malachor</option>
+                            <option value="Death Star">Death Star</option>
+                        </select>
+                        <input id="darksideGP" name="darksidedGP" type="number">
+                    </fieldset>
+                    <fieldset class="neutralPhase">
+                        <label for="neutral">Neutral planets</label>
+                        <select id="neutral">
+                            <option value="Corellia">Corellia</option>
+                            <option value="Felucia">Felucia</option>
+                            <option value="Tatooine">Tatooine</option>
+                            <option value="Kessel">Kessel</option>
+                            <option value="Vandor">Vandor</option>
+                            <option value="Hoth">Hoth</option>
+                        </select>
+                        <input id="neutralGP" name="neutralGP" type="number">
+                    </fieldset>
+                    <fieldset class="lightsidePhase">
+                        <label for="lightside">Light side planet</label>
+                        <select id="lightside">
+                            <option value="Coruscant">Coruscant</option>
+                            <option value="Bracca">Bracca</option>
+                            <option value="Kashyyyk">Kashyyyk</option>
+                            <option value="Lothal">Lothal</option>
+                            <option value="Ring of Kafrene">Ring of Kafrene</option>
+                            <option value="Scarif">Scarif</option>
+                        </select>
+                        <label for="lightsideGP">GP Preloaded</label>
+                        <input id="lightsideGP" name="lightsideGP" type="number">
+                    </fieldset>
+                </fieldset>
                 <button type="submit" id="calculate">Calculate</button>
             </form>
+            <button type="button" id="switch">Switch to Single Phase planning</button>
         </section>
         <div class="orders">
             <h1 class = "heading">TB Orders</h1>
