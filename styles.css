@@ -70,3 +70,196 @@ nav a{
     display: flex;
     flex-direction: column;
 }
+
+#background {
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+
+.map-planets > img {
+    background-color: transparent;
+    transition: all .2s ease-in-out;
+    position: absolute;
+    z-index: 1;
+}
+
+.map-planets > img:hover {
+    transform: scale(1.2);
+}
+
+.map {
+    background-image: url("./images/background.png");
+    background-position: center;
+    background-size: cover;
+    margin: 0;
+    height: 100vh;
+}
+
+.map > nav {
+    background-color: transparent;
+}
+.map > nav > a {
+    background-color: transparent;
+}
+.main-map {
+    background-color: transparent;
+    display: inline;
+}
+#Mustafar {
+    top: 78%;
+    left: 40%;
+}
+#Corellia {
+    top: 73%;
+    left: calc(50% - 38px);
+}
+
+#Coruscant {
+    top: 78%;
+    left: 55%;
+}
+
+#Geonosis {
+    top: 68%;
+    left: 33%;
+}
+
+#Dathomir {
+    top: 66%;
+    left: 22%;
+}
+
+#Haven-Medical-Station{
+    top: 53%;
+    left: 15%;
+}
+
+#Malachor {
+    top: 31%;
+    left: 12%;
+}
+
+#Death-Star {
+    top: 11%;
+    left: 15%;
+}
+
+#Felucia {
+    top: 55%;
+    left: 50%;
+}
+#Tatooine {
+    top: 40%;
+    left: 43%;
+}
+#Mandalore {
+    top: 30%;
+    left: 33%;
+}
+#Kessel{
+    top: 30%;
+    left: 52%;
+}
+#Vandor {
+    top: 20%;
+    left: 43%;
+}
+#Hoth {
+    top: 5%;
+    left: 55%;
+}
+#Bracca {
+    top: 64%;
+    left: 62%;
+}
+#Zeffo {
+    top: 45%;
+    left: 60%;
+}
+#Kashyyyk {
+    top: 60%;
+    left: 72%;
+}
+
+#Lothal {
+    top: 45%;
+    left: 80%;
+}
+
+#Ring-of-Kafrene {
+    height: 75px;
+    top: 28%;
+    left: 83%;
+}
+
+#Scarif {
+    top: 10%;
+    left: 80%;
+}
+
+.planetInfo{
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: rgba(0, 0, 0, 0.41);
+    z-index: 10;
+    width: 15%;
+    margin: 0;
+    padding: 0;
+    height: 0;
+    transition: height 0.5s ease-in-out;
+    overflow: hidden;
+    h1 {
+        background-color: transparent;
+        color: var(--accent3-color);
+        font-size: 1.2em;
+        margin: 0 0 10px 5px;
+    }
+    h2 {
+       background-color: transparent;
+        padding: 0;
+        margin: 0 0 0 5px;
+    }
+    p {
+        background-color: transparent;
+        margin: 0 0 10px 5px;
+    }
+}
+
+.planetInfo:hover {
+    display: block;
+    height: auto;
+}
+.planetInfo.open {
+    display: block;
+    height: auto;
+}
+.lines {
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.lines line {
+    stroke-width: 5px;
+    z-index: -1;
+}
+.lines .dark {
+    stroke: var(--accent1-color);
+}
+.lines .light {
+    stroke: var(--accent2-color);
+}
+.lines .neutral {
+    stroke: var(--accent3-color);
+}
+.lines .bonus
+{
+    stroke: var(--secondary-color);
+}

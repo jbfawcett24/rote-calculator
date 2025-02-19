@@ -6,28 +6,7 @@ let guildInfo =
         bonusPlanets: []
     }
 
-const planets = [
-    {name: "Mustafar", preload: 116406250, star: 248333333, completed: false, preloaded: false, side: "dark", deployed: 0, twoStar: 186250000, stars: 0},
-    {name: "Corellia", preload: 111718750, star: 238333333, completed: false, preloaded: false, side: "neutral", deployed: 0, twoStar: 178750000, stars: 0},
-    {name: "Coruscant", preload: 116406250, star: 248333333, completed: false, preloaded: false, side: "light", deployed: 0, twoStar: 186250000, stars: 0},
-    {name: "Geonosis", preload: 148125000, star: 316000000, completed: false, preloaded: false, side: "dark", deployed: 0, twoStar: 237000000, stars: 0},
-    {name: "Felucia", preload: 148125000, star: 316000000, completed: false, preloaded: false, side: "neutral", deployed: 0, twoStar: 237000000, stars: 0},
-    {name: "Bracca", preload: 142265625, star: 303500000, completed: false, preloaded: false, side: "light", deployed: 0, twoStar: 227625000, stars: 0},
-    {name: "Zeffo", preload: 143589583, twoStar: 229743333, star: 287179167, completed: false, preloaded: false, side: "bonus", deployed: 0, stars: 0},
-    {name: "Dathomir", preload: 158960938, star: 339116667, completed: false, preloaded: false, side: "dark", deployed: 0, twoStar: 254337500, stars: 0},
-    {name: "Tatooine", preload: 190953125, star: 407366667, completed: false, preloaded: false, side: "neutral", deployed: 0, twoStar: 305525000, stars: 0},
-    {name: "Kashyyyk", preload: 190953125, star: 407366667, completed: false, preloaded: false, side: "light", deployed: 0, twoStar: 305525000, stars: 0},
-    {name: "Haven Medical Station", preload: 235143105, star: 500304479, completed: false, preloaded: false, side: "dark", deployed: 0, twoStar: 229743333, stars: 0},
-    {name: "Kessel", preload: 235143105, twoStar: 400243583, star: 500304479, completed: false, preloaded: false, side: "neutral", deployed: 0, stars: 0},
-    {name: "Lothal", preload: 246742558, twoStar: 419987333, star: 524984167, completed: false, preloaded: false, side: "light", deployed: 0, stars: 0},
-    {name: "Malachor", preload: 341250768, twoStar: 620455942, star: 729948167, completed: false, preloaded: false, side: "dark", deployed: 0, stars: 0},
-    {name: "Vandor", preload: 341250768, twoStar: 620455942, star: 729948167, completed: false, preloaded: false, side: "neutral", deployed: 0, stars: 0},
-    {name: "Ring of Kafrene", preload: 341250768, twoStar: 620455942, star: 729948167, completed: false, preloaded: false, side: "light", deployed: 0, stars: 0},
-    {name: "Death Star", preload: 582632425, twoStar: 1059331682, star: 1246272567, completed: false, preloaded: false, side: "dark", deployed: 0, stars: 0},
-    {name: "Hoth", preload: 582632425, twoStar: 1059331682, star: 1246272567, completed: false, preloaded: false, side: "neutral", deployed: 0, stars: 0},
-    {name: "Scarif", preload: 555710999, twoStar: 1010383635, star: 1188686629, completed: false, preloaded: false, side: "light", deployed: 0, stars: 0},
-]
-
+import {planets} from "./planets.js";
 
 let totalStars = 0;
 let full = true;
@@ -114,8 +93,8 @@ function sortPhasePlanets(planets)
 }
 function setGuildInfo()
 {
-    const bonusInfo = document.querySelectorAll("#bonusInfo input[type='checkbox']:checked");
-    const selectedBonuses = Array.from(bonusInfo).map(checkbox => checkbox.name);
+    //const bonusInfo = document.querySelectorAll("#bonusInfo input[type='checkbox']:checked");
+    //const selectedBonuses = Array.from(bonusInfo).map(checkbox => checkbox.name);
     //console.log(selectedBonuses);
     guildInfo.GP = document.querySelector("#guildGP").valueAsNumber;
     guildInfo.undeployed = document.querySelector("#undeployed").valueAsNumber;
@@ -156,6 +135,7 @@ function calculate(singlePhase)
                 phasePlanets.push(availablePlanets[i]);
                 phasePlanets[phasePlanets.length - 1].completed = true;
                 phasePlanets[phasePlanets.length - 1].preloaded = true;
+                console.log(`${availablePlanets[i].name} is 3 starred`)
                 for (let j = 0; j < planets.length; j++) {
                     if (planets[j].name === availablePlanets[i].name) {
                         planets[j].completed = true;
@@ -222,6 +202,7 @@ function calculate(singlePhase)
         document.querySelector('.orders').innerHTML += html;
         phaseNum++;
     }
+    planets.forEach(planet => planet.preload += guildInfo.preload);
 }
 
 function switchMode(e)
@@ -231,27 +212,33 @@ function switchMode(e)
     document.querySelector("#bonusInfo").classList.toggle("hide");
     if(full === true) {
         document.querySelector("#switch").textContent = "Switch to Full Event Planning";
-        full = false;
     } else {
         document.querySelector("#switch").textContent = "Switch to Single Phase Planning";
-        full = true;
     }
+    full = !full;
 }
 
 function submitData(e)
 {
     e.preventDefault();
     let singlePhase = document.querySelector("#phaseNum").value;
-    singlePhasePlanets.push(planets.find(p => p.name === document.querySelector("#darkside").value));
-    singlePhasePlanets.push(planets.find(p => p.name === document.querySelector("#neutral").value));
-    singlePhasePlanets.push(planets.find(p => p.name === document.querySelector("#lightside").value));
-    singlePhasePlanets[0].deployed = parseInt(document.querySelector("#darksideGP").value);
-    singlePhasePlanets[1].deployed = parseInt(document.querySelector("#neutralGP").value);
-    singlePhasePlanets[2].deployed = parseInt(document.querySelector("#lightsideGP").value);
-    singlePhasePlanets.sort((a, b) => b.deployed - a.deployed);
-    console.log(singlePhasePlanets[0].name);
-    calculate(singlePhase);
+    if(full === false) {
+        singlePhasePlanets.push(planets.find(p => p.name === document.querySelector("#darkside").value));
+        singlePhasePlanets.push(planets.find(p => p.name === document.querySelector("#neutral").value));
+        singlePhasePlanets.push(planets.find(p => p.name === document.querySelector("#lightside").value));
+        singlePhasePlanets[0].deployed = parseInt(document.querySelector("#darksideGP").value);
+        singlePhasePlanets[1].deployed = parseInt(document.querySelector("#neutralGP").value);
+        singlePhasePlanets[2].deployed = parseInt(document.querySelector("#lightsideGP").value);
+        singlePhasePlanets.sort((a, b) => b.deployed - a.deployed);
+        console.log(singlePhasePlanets[0].name);
+        calculate(singlePhase);
+    } else {
+        calculate(1);
+    }
 }
 
 document.querySelector("#calculate").addEventListener("click", submitData);
 document.querySelector("#switch").addEventListener("click", switchMode);
+
+//MAP script
+
