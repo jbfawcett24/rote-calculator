@@ -63,6 +63,7 @@ nav a{
     font-size: 2em;
     color: var(--secondary-color);
     margin-left: 10px;
+    z-index: 20;
 }
 
 #guild {
@@ -262,4 +263,12 @@ nav a{
 .lines .bonus
 {
     stroke: var(--secondary-color);
+}
+
+.map > nav
+{
+    position: relative;
+    z-index: 100;
+    padding-top: 5px;
+    padding-left: 5px;
 }
