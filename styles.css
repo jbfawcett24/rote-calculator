@@ -341,7 +341,7 @@ nav a{
     margin-bottom: 2%;
 }
 #bonusInfo label {
-    font-size: 1em;
+    font-size: 1.6em;
 }
 
 .singlePhase {
@@ -359,4 +359,15 @@ nav a{
     margin-top: 10px;
     border: none;
     padding: 0;
+}
+
+input[type=checkbox]
+{
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(1.5); /* IE */
+    -moz-transform: scale(1.8); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(1.5); /* Opera */
+    transform: scale(2);
+    padding: 30px;
 }
