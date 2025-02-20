@@ -343,3 +343,20 @@ nav a{
 #bonusInfo label {
     font-size: 1em;
 }
+
+.singlePhase {
+    border: 1px solid var(--secondary-color);
+    margin-top: 10px;
+    border-radius: 10px;
+}
+.singlePhase label{
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.singlePhase > fieldset {
+    margin: 0;
+    margin-top: 10px;
+    border: none;
+    padding: 0;
+}

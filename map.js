@@ -5,8 +5,8 @@ function displayPlanetInfo(planet)
     const textbox = document.querySelector(".planetInfo");
     textbox.querySelector("#planetName").textContent = planet.name;
     textbox.querySelector("#oneStar").textContent = planet.preload.toString().replace(/(?<=\d)(?=(\d{3})+(?!\d))/g, ",");
-    textbox.querySelector("#twoStar").textContent = planet.twoStar;
-    textbox.querySelector("#threeStar").textContent = planet.star;
+    textbox.querySelector("#twoStar").textContent = planet.twoStar.toString().replace(/(?<=\d)(?=(\d{3})+(?!\d))/g, ",");
+    textbox.querySelector("#threeStar").textContent = planet.star.toString().replace(/(?<=\d)(?=(\d{3})+(?!\d))/g, ",");
     textbox.style.top = (parseFloat(window.getComputedStyle(document.querySelector(`#${planet.name.replace(/\s/g, '-')}`)).getPropertyValue("top").replace("px", "")) + 37) + "px";
     textbox.style.left = (parseFloat(window.getComputedStyle(document.querySelector(`#${planet.name.replace(/\s/g, '-')}`)).getPropertyValue("left").replace("px", "")) + 37) +"px";
     if(planet.side === "neutral")

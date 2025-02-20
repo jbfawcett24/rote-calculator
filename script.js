@@ -12,55 +12,98 @@ let totalStars = 0;
 let full = true;
 let singlePhasePlanets = [];
 
-function orderTemplate(planets, phaseNum, orders)
+function orderTemplate(planets, phaseNum, phaseOrder)
 {
     return `<details class="order">
                         <summary>Phase ${phaseNum}</summary>
                         <section class="planets">
                             <h3 class = "dark">${planets[0].name}</h3>
-                            <p>${orders[0]}</p>
+                            <p>${planets[0].order}</p>
                             <h3 class = "neutral">${planets[1].name}</h3>
-                            <p>${orders[1]}</p>
+                            <p>${planets[1].order}</p>
                             <h3 class = "light">${planets[2].name}</h3>
-                            <p>${orders[2]}</p>
+                            <p>${planets[2].order}</p>
                         </section>
                         <h3>Missions</h3>
-                        <p>No missions are required this phase</p>
+                        <p>${findMissions(planets)}</p>
                         <h3>Deployment Guide</h3>
-                        <p>Deploy Mustafar to 3 stars, then preload Corellia to 100 Mil, then Coruscant</p>
+                        <p>${phaseOrder}</p>
                     </details>`
 }
 function planetOrder(planetsList)
 {
     let outOfGP = false;
-    let orders = [];
     for(let i = 0; i < planetsList.length; i++) {
         //console.log(planetsList[i].stars);
         if(planetsList[i].stars === 1)
         {
-            orders.push("⭐ 1 star");
+            planetsList[i].order = "⭐ 1 star";
             //console.log("it is one star");
             totalStars ++;
         } else if(planetsList[i].stars === 2)
         {
-            orders.push("⭐⭐ 2 stars");
+            planetsList[i].order = "⭐⭐ 2 stars";
             totalStars += 2;
         } else if (planetsList[i].completed === true) {
-            orders.push("⭐⭐⭐ 3 stars");
+            planetsList[i].order = "⭐⭐⭐ 3 stars";
             totalStars += 3;
         } else if (planetsList[i].preloaded === true) {
-            orders.push("Preload to " + planetsList[i].preload);
+            planetsList[i].order = "Preload to " + planetsList[i].preload;
         } else {
             if(!outOfGP) {
-                orders.push(planetsList[i].deployed);
+                planetsList[i].order = planetsList[i].deployed;
                 outOfGP = true;
             }
             else {
-                orders.push(0);
+                planetsList[i].order = "0";
             }
         }
     }
-    return orders;
+    console.log(planetsList);
+    return planetsList;
+}
+function createPhaseOrder(planets)
+{
+    let phaseOrders =  `Deploy in `;
+    for(let i = 0; i<planets.length; i++)
+    {
+        let then = true;
+        if(planets[i].completed === true)
+        {
+            phaseOrders+= `${planets[i].name} to 3 stars`;
+        } else if(planets[i].preloaded === true)
+        {
+            phaseOrders += `${planets[i].name} to ${Math.trunc(planets[1].preload/1000000)} Mil`;
+        } else {
+            then = false
+            if(planets[i].deployed > 0) {
+                phaseOrders += `${planets[i].name}`;
+                if (planets[i].stars > 0) {
+                    phaseOrders += `to ${planets[i].stars} `;
+                    if (planets[i].stars === 1) {
+                        phaseOrders += `star`;
+                    } else {
+                        phaseOrders += "stars";
+                    }
+                }
+            }
+        }
+        if(then === true)
+        {
+            phaseOrders += ", then "
+        }
+    }
+    return phaseOrders;
+}
+
+function findMissions(planets)
+{
+    if(planets.some(planet => planet.name === "Tatooine"))
+    {
+        return "Do the Reva mission if possible"
+    } else {
+        return "No missions are required this phase";
+    }
 }
 function sortPhasePlanets(planets)
 {
@@ -109,12 +152,14 @@ function calculate(singlePhase)
     //document.querySelector('button').classList.add("hide");
     document.querySelector(".orders").innerHTML = `<h1 class = "heading">TB Orders</h1>`;
     totalStars = 0;
-    planets.forEach(planet => {
-        planet.preloaded = false;
-        planet.deployed = 0;
-        planet.stars = 0;
-        planet.completed = false;
-    })
+    if(singlePhase === 1) {
+        planets.forEach(planet => {
+            planet.preloaded = false;
+            planet.deployed = 0;
+            planet.stars = 0;
+            planet.completed = false;
+        });
+    }
     setGuildInfo();
     let phaseNum;
     let endPhase;
@@ -140,6 +185,8 @@ function calculate(singlePhase)
         for (let i = 0; i < 3; i++) {
             if (!availablePlanets[i].preloaded && (availablePlanets[i].star-availablePlanets[i].deployed) <= tempGuildGP) {
                 tempGuildGP -= (availablePlanets[i].star-availablePlanets[i].deployed);
+                console.log(availablePlanets[i].star-availablePlanets[i].deployed);
+                console.log(tempGuildGP);
                 phasePlanets.push(availablePlanets[i]);
                 phasePlanets[phasePlanets.length - 1].completed = true;
                 phasePlanets[phasePlanets.length - 1].preloaded = true;
@@ -203,9 +250,10 @@ function calculate(singlePhase)
                 phasePlanets.push(availablePlanets[i]);
             }
         }
+        const phaseOrders = createPhaseOrder(phasePlanets);
+        phasePlanets = planetOrder(phasePlanets);
         phasePlanets = sortPhasePlanets(phasePlanets);
-        const orders = planetOrder(phasePlanets);
-        const html = orderTemplate(phasePlanets, phaseNum, orders);
+        const html = orderTemplate(phasePlanets, phaseNum, phaseOrders);
         document.querySelector('.heading').innerText = `TB Orders - ${totalStars} Stars`
         document.querySelector('.orders').innerHTML += html;
         phaseNum++;
@@ -234,11 +282,13 @@ function submitData(e)
         singlePhasePlanets.push(planets.find(p => p.name === document.querySelector("#darkside").value));
         singlePhasePlanets.push(planets.find(p => p.name === document.querySelector("#neutral").value));
         singlePhasePlanets.push(planets.find(p => p.name === document.querySelector("#lightside").value));
-        singlePhasePlanets[0].deployed = parseInt(document.querySelector("#darksideGP").value);
-        singlePhasePlanets[1].deployed = parseInt(document.querySelector("#neutralGP").value);
-        singlePhasePlanets[2].deployed = parseInt(document.querySelector("#lightsideGP").value);
+        console.log(singlePhasePlanets[1]);
+        console.log(document.querySelector("#neutralGP").value)
+        singlePhasePlanets[0].deployed += parseInt(document.querySelector("#darksideGP").value);
+        singlePhasePlanets[1].deployed += parseInt(document.querySelector("#neutralGP").value);
+        singlePhasePlanets[2].deployed += parseInt(document.querySelector("#lightsideGP").value);
         singlePhasePlanets.sort((a, b) => b.deployed - a.deployed);
-        console.log(singlePhasePlanets[0].name);
+        console.log(singlePhasePlanets[0]);
         calculate(singlePhase);
     } else {
         calculate(1);
