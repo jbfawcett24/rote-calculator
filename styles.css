@@ -62,7 +62,7 @@ nav a{
     text-decoration: none;
     font-size: 2em;
     color: var(--secondary-color);
-    margin-left: 10px;
+    margin-left: 5px;
     z-index: 20;
 }
 
@@ -271,4 +271,75 @@ nav a{
     z-index: 100;
     padding-top: 5px;
     padding-left: 5px;
+}
+
+#guild
+{
+    margin-top: 20px;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    border-radius: 10px;
+}
+#guild label
+{
+    font-weight: bold;
+    display: block;
+}
+#guild input {
+    width: 80%;
+    margin-bottom: 10px;
+}
+.guildInfo h1 {
+    color: var(--secondary-color);
+    font-size: 1.6em;
+    margin: 0;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.guildInfo label {
+    color: white;
+    font-size: 1.2em;
+}
+
+.guildInfo input {
+    text-decoration: none;
+}
+#calculate {
+    margin-top: 10px;
+    height: 200%;
+    width: 30%;
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 1.8em;
+    margin-left: 0.5%;
+}
+#calculate:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+#switch {
+    border: none;
+    color: var(--secondary-color);
+    border-radius: 5px;
+    font-size: 1.2em;
+    margin-left: 0.5%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+#bonusInfo {
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px;
+    margin-top: 10px;
+    
+}
+
+#bonusInfo > p {
+    color: var(--secondary-color);
+    margin: 0;
+    font-size: 1.2em;
+    margin-bottom: 2%;
+}
+#bonusInfo label {
+    font-size: 1em;
 }

@@ -106,7 +106,15 @@ function setGuildInfo()
 }
 function calculate(singlePhase)
 {
-    document.querySelector('button').classList.add("hide");
+    //document.querySelector('button').classList.add("hide");
+    document.querySelector(".orders").innerHTML = `<h1 class = "heading">TB Orders</h1>`;
+    totalStars = 0;
+    planets.forEach(planet => {
+        planet.preloaded = false;
+        planet.deployed = 0;
+        planet.stars = 0;
+        planet.completed = false;
+    })
     setGuildInfo();
     let phaseNum;
     let endPhase;

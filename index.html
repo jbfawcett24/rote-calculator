@@ -13,7 +13,6 @@
  - Bonus Planets
  - order generation
  - mission generation
- - map
 -->
 <body>
     <main>
@@ -21,8 +20,10 @@
             <nav>
                 <a href="map.html">To Map</a>
             </nav>
+            <button type="button" id="switch">Switch to Single Phase Planning</button>
             <form class="guildInfo">
                 <fieldset id="guild">
+                    <h1>Guild Info</h1>
                     <label for="guildGP">Guild GP</label>
                     <input type="number" id="guildGP" name="guildGP" required>
                     <label for="undeployed">Average undeployed GP per phase</label>
@@ -31,11 +32,15 @@
                     <input type="number" id="preload" name="preload" required>
                 </fieldset>
                 <fieldset id="bonusInfo">
-                    <p>Which bonus planets can you unlock</p>
-                    <input type="checkbox" id="Zeffo" name="Zeffo">
-                    <label for="Zeffo">Zeffo</label>
-                    <input type="checkbox" id="Mandalore" name="Mandalore">
-                    <label for="Mandalore">Mandalore</label>
+                    <h1>Bonus Planets</h1>
+                    <div>
+                        <input type="checkbox" id="Zeffo" name="Zeffo">
+                        <label for="Zeffo">Zeffo</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="Mandalore" name="Mandalore">
+                        <label for="Mandalore">Mandalore</label>
+                    </div>
                 </fieldset>
                 <fieldset class = "singlePhase hide">
                     <label for="phaseNum">Phase Number</label>
@@ -80,7 +85,7 @@
                 </fieldset>
                 <button type="submit" id="calculate">Calculate</button>
             </form>
-            <button type="button" id="switch">Switch to Single Phase planning</button>
+            
         </section>
         <div class="orders">
             <h1 class = "heading">TB Orders</h1>
